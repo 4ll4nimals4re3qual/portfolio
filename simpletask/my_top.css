@@ -1,0 +1,497 @@
+@charset "UTF-8";
+
+body,h1,p,ul,ol,li,dl,dt,dd,header,main,nav,footer,section,figure,figcaption,table,tbody,tr,th,td{
+  margin:0;
+  padding:0;
+  /* box-sizing:border-box; */
+}
+
+html{
+  font-size:62.5%;
+  scroll-behavior:smooth;
+}
+
+img{
+  border:0;
+  vertical-align:top;
+}
+
+body{
+  /* font-family:"Hiragino Kaku Gothic ProN","ヒラギノ角ゴ ProN W3","BIZ UDPゴシック","Yu Gothic",游ゴシック,YuGothic,游ゴシック体,Meiryo,メイリオ,sans-serif; */
+  font-family:"Hiragino Kaku Gothic ProN","ヒラギノ角ゴ ProN W3",Meiryo,メイリオ,sans-serif;
+  font-size:1.6rem;
+  background: #eee;
+}
+
+#wrapper{
+  width:100%;
+  margin:0 auto;
+}
+
+button,input,select,textarea {
+  font-family : inherit;
+  font-size : 100%;
+}
+
+
+/* header ------------------------------*/
+/* ヘッダー全体 */
+header{
+  display:flex;
+  width:100%;
+  height:48px;
+  position:fixed;
+  z-index:9999;
+  top:0;
+  left:0;
+  background:#fff;
+  padding:12px 0 0 0;
+  box-shadow:0 5px 5px 0 rgba(0,0,0,0.2);
+}
+
+/* ヘッダー文字 */
+header h1 span{
+  font-family: 'Palette Mosaic', cursive;
+}
+
+header h1{
+  color:#09f;
+  font-size:2rem;
+  font-family: 'Coiny', cursive;
+  margin-left:50px;
+  font-weight: normal;
+}
+
+/* header a{
+  font-size:1.6rem;
+  text-decoration: none;
+  margin-right:20px;
+} */
+
+header .right{
+  margin-left:auto;
+}
+
+.dropdown {
+  background-color: #09f;
+  color:#fff;
+  padding:0.5em;
+  padding-right:2.5em;	
+  margin-top:-3px;
+  margin-left:10px;
+  border:0;
+  border-radius:3px;
+  outline:solid 1px #069;
+}
+
+/* ナビゲーションメニュー　ハンバーガーアイコン */
+#nav_menu label{
+  display:inline;
+  position:absolute;
+  top:18px;
+  left:20px;
+  width:20px;
+  height:20px;
+  cursor:pointer;
+  user-select:none;
+  opacity:0%;
+  animation:delay 0.5s ease 0.2s 1 forwards;
+}
+
+#nav_menu label span{
+  content:"";
+  width:100%;
+  height:3px;
+  position:absolute;
+  background:#999;
+  border-radius:2px;
+}
+
+#nav_menu label span:nth-child(1){
+  top:1px;
+  animation:x-bar1 0.2s cubic-bezier(1,0,0,1) forwards;
+}
+
+#nav_menu label span:nth-child(2){
+  top:8px;
+  animation:x-bar2 0.2s cubic-bezier(1,0,0,1) forwards;
+}
+
+#nav_menu label span:nth-child(3){
+  top:15px;
+  animation:x-bar3 0.2s cubic-bezier(1,0,0,1) forwards;
+}
+
+#nav_menu input:checked ~ label span:nth-child(1){
+  animation:bar-x1 0.2s cubic-bezier(1,0,0,1) forwards;
+}
+
+#nav_menu input:checked ~ label span:nth-child(2){
+  animation:bar-x2 0.2s cubic-bezier(1,0,0,1) forwards;
+}
+
+#nav_menu input:checked ~ label span:nth-child(3){
+  animation:bar-x3 0.2s cubic-bezier(1,0,0,1) forwards;
+}
+
+/* ナビゲーションメニュー */
+/* ハンバーガーアイコンクリックで表示／非表示切替 */
+#nav_menu input {
+  display:none;
+}
+
+#nav_menu #hidden_show {
+  opacity:0;
+  visibility:hidden;
+  height:0;
+  transition:all 0.2s 0s ease;
+}
+
+#nav_menu input:checked ~ #hidden_show {
+  opacity:1;
+  visibility:visible;
+  height:100%;
+  transition:all 0.2s 0s ease;
+}
+
+/* ナビゲーションメニューリスト */
+#nav_list{
+  width:100%;
+  max-width:1000px;
+  list-style:none;
+  display:flex;
+  position:absolute;
+  top:61px;
+  left:0px;
+}
+
+#nav_list li>a{
+  display:block;
+  background:#fff;
+  padding:10px 0;
+  text-decoration:none;
+  text-align:center;
+  color:#000;
+  box-shadow:
+  0 -1px 0 0 #ccc,  
+  5px 5px 5px 0 rgba(0,0,0,0.2);
+  transition:color 0.4s 0s ease;
+  z-index:0;
+  position:relative;
+  overflow: hidden;
+}
+
+#nav_list li>a:hover{
+  color:black;
+}
+
+#nav_list li>a:hover:before{
+  content:"";
+  width:100%;
+  height:100%;
+  position:absolute;
+  top:0;
+  left:0;
+  z-index:-1;
+  background:#09f;
+  animation:bg_slideX 0.4s cubic-bezier(1,0,0,1);
+}
+
+/* main ------------------------------*/
+main{
+  margin-top:60px;
+  background:#eee;
+  word-wrap: break-word;
+  /* padding:10px; */
+}
+
+/* list */
+.drag-list{
+  display:flex;
+  flex-flow:row nowrap;
+  justify-content:flex-start;
+}
+.list{
+  display:block;
+  width:300px;
+  min-width:300px;
+  height:100%;
+  padding:15px;
+  background:#fff;
+  border:solid 1px #eee;
+  cursor:pointer;
+  max-height:calc(100vh - 110px);
+  overflow-y: auto;
+  scrollbar-width: thin;/*細さ（スクロールバーfirefox）*/
+  scrollbar-color: #ddd #fff;/*つまみの色 軌道の色（スクロールバーfirefox）*/
+}
+/* （スクロールバーchrome） */
+::-webkit-scrollbar {/*縦方向スクロールバーの幅*/
+  width:10px;
+}
+::-webkit-scrollbar-track {/*スクロールバーの軌道*/
+  background:#fff;
+}
+::-webkit-scrollbar-thumb {/*つまみの部分*/
+  border-radius: 10px;
+  background: #ddd;
+}
+::-webkit-scrollbar-thumb:hover {/*マウスホバー時*/
+  background: #999;
+}
+.listname{
+  text-decoration:none;
+  text-align:center;
+  font-weight:bold;
+  font-size:2rem;
+  padding:10px;
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+
+/* item */
+.item{
+  display:block;
+  height:100%;
+  min-height:20px;
+  padding:10px 10px 10px 10px;
+  outline:solid 1px #eee;
+  cursor:pointer;
+  overflow: hidden;
+  box-shadow:0 5px 10px 0 rgba(0,0,0,0.2);
+}
+.plus{
+  background:#fff;
+  font-weight:bold;
+  font-size: 3rem;
+  text-align: center;
+  color:#000;
+}
+.itemname,.checkable{
+  display:inline;
+}
+.thumbnail{
+  width:100%;
+  border-radius: 10px;
+}
+.pin:before{
+  content:"📌";
+}
+.open {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: .2s;
+}
+.open-inner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  width: calc(100vw - 200px);
+  max-width: 730px;
+  max-height: calc(100vh - 200px);
+  padding: 50px;
+  background-color: #fff;
+  z-index: 2;
+  border-radius: 5px;
+  overflow-y: auto;
+  scrollbar-width: thin;/*細さ（スクロールバーfirefox）*/
+  scrollbar-color: #ddd #fff;/*つまみの色 軌道の色（スクロールバーfirefox）*/
+}
+.open-inner p{
+  width: 100%;
+}
+.open-inner th{
+  text-align: left;
+  background: #eee;
+}
+.open-inner table{
+  width:100%;
+}
+.open-inner textarea{
+  width:calc(100% - 8px);
+  margin-bottom:20px;
+}
+.open-inner input{
+  margin-bottom:20px;
+}
+.open-inner input[type="radio"]{
+  display: none;
+}
+.open-inner input[type="radio"]:checked + label{
+  outline: 5px solid #09f;
+  outline-offset: 2px;
+}
+.open-inner .color{
+  display:inline-block;
+  outline:1px solid #999;
+  border-radius: 10px;
+  margin:10px 3px;
+  margin-bottom:20px;
+  padding:5px 10px;
+}
+.open-inner label[for="color1"]{
+  background:#fff;
+}
+.open-inner label[for="color2"]{
+  background:#f99;
+}
+.open-inner label[for="color3"]{
+  background:#fb7;
+}
+.open-inner label[for="color4"]{
+  background:#fd9;
+}
+.open-inner label[for="color5"]{
+  background:#bd9;
+}
+.open-inner label[for="color6"]{
+  background:#9de;
+}
+.open-inner label[for="color7"]{
+  background:#9bf;
+}
+.open-inner label[for="color8"]{
+  background:#e9e;
+}
+.open-inner img{
+  width:100%;
+  max-width: 723px;
+  border-radius: 10px;
+}
+.open-inner #checkable{
+  margin-bottom:0;
+}
+.open-inner input[type="text"]{
+  width:calc(100% - 8px);
+}
+.open-inner>button{
+  color:#fff;
+  border-radius: 10px;
+  font-size:1.6rem;
+  width:100px;
+  height:40px;
+  cursor:pointer;
+}
+.open-inner #itemchange_btn,.open-inner #listchange_btn{
+  background:#09f;
+  border:1px solid #069;
+}
+.open-inner #itemdelete_btn,.open-inner #listdelete_btn{
+  background:#999;
+  border:1px solid #333;
+  margin-left:calc(100% - 210px);
+}
+.open-inner #createdate{
+  margin-top:20px;
+}
+.open-inner p{
+  color:#999;
+  font-size:1.4rem;
+}
+.close-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 20px;
+  color: #333;
+}
+.black-background {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,.3);
+  z-index: 1;
+  cursor: pointer;
+}
+.is-show {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+
+/* media query breakpoints ------------------------------*/
+/* スマホサイズ */
+@media screen and (min-width: 0px) and (max-width: 690px){
+  #nav_list{
+    flex-flow:column nowrap;
+  }
+}
+
+/* PCサイズ */
+@media screen and (min-width: 691px) {
+  #nav_list{
+    flex-flow:column nowrap;
+  } 
+
+  #nav_list li{
+    width:300px;
+  }
+}
+
+
+/* animation ------------------------------*/
+@keyframes bg_slideX{
+  0%{transform-origin:left top; transform:scaleX(0);}
+  100%{transform-origin:left top; transform:scaleX(1);}
+}
+
+@keyframes bg_slideY{
+  0%{transform-origin:left top; transform:scaleY(0);}
+  100%{transform-origin:left top; transform:scaleY(1);}
+}
+
+@keyframes delay{
+  0%{opacity:0%;}
+  100%{opacity:100%;}
+}
+
+@keyframes bar-x1{
+  0%{width:100%; top:1px; left:0%;}
+  50%{width:20%; top:8px; left:40%;}
+  100%{width:100%; top:8px; left:0%; transform:rotate(-45deg);}
+}
+
+@keyframes bar-x2{
+  0%{width:100%; opacity:1; left:0%;}
+  50%{width:20%; opacity:0; left:40%;}
+  100%{width:20%; opacity:0; left:0%;}
+}
+
+@keyframes bar-x3{
+  0%{width:100%; top:15px; left:0%;}
+  50%{width:20%; top:8px; left:40%;}
+  100%{width:100%; top:8px; left:0%; transform:rotate(45deg);}
+}
+
+@keyframes x-bar1{
+  0%{width:100%; top:8px; left:0%; transform:rotate(-45deg);}
+  50%{width:20%; top:8px; left:40%;}
+  100%{width:100%; top:1px; left:0%;}
+}
+
+@keyframes x-bar2{
+  0%{width:20%; opacity:0; left:0%;}
+  50%{width:20%; opacity:0; left:40%;}
+  100%{width:100%; opacity:1; left:0%;}
+}
+
+@keyframes x-bar3{
+  0%{width:100%; top:8px; left:0%; transform:rotate(45deg);}
+  50%{width:20%; top:8px; left:40%;}
+  100%{width:100%; top:15px; left:0%;}
+}

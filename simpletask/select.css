@@ -1,0 +1,483 @@
+@charset "UTF-8";
+
+body,h1,p,ul,ol,li,dl,dt,dd,header,main,nav,footer,section,figure,figcaption,table,tbody,tr,th,td{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  font-size:62.5%;
+  scroll-behavior:smooth;
+}
+
+img{
+  border:0;
+  vertical-align:top;
+}
+
+body{
+  /* font-family:"Hiragino Kaku Gothic ProN","ヒラギノ角ゴ ProN W3","BIZ UDPゴシック","Yu Gothic",游ゴシック,YuGothic,游ゴシック体,Meiryo,メイリオ,sans-serif; */
+  font-family:"Hiragino Kaku Gothic ProN","ヒラギノ角ゴ ProN W3",Meiryo,メイリオ,sans-serif;
+  font-size:1.6rem;
+  background: #eee;
+}
+
+#wrapper{
+  width:100%;
+  margin:0 auto;
+}
+
+button,input,select,textarea {
+  font-family : inherit;
+  font-size : 100%;
+}
+
+
+/* header ------------------------------*/
+/* ヘッダー全体 */
+header{
+  display:flex;
+  width:100%;
+  height:60px;
+  position:fixed;
+  z-index:9999;
+  top:0;
+  left:0;
+  background:#fff;
+  padding:12px 0 0 0;
+  box-shadow:0 5px 5px 0 rgba(0,0,0,0.2);
+}
+
+/* ヘッダー文字 */
+header h1 span{
+  font-family: 'Palette Mosaic', cursive;
+}
+
+header h1{
+  color:#09f;
+  font-size:2rem;
+  font-family: 'Coiny', cursive;
+  margin-left:50px;
+  font-weight: normal;
+}
+
+/* header a{
+  font-size:1.6rem;
+  text-decoration: none;
+  margin-right:20px;
+} */
+
+header .right{
+  margin-left:auto;
+}
+
+/* ナビゲーションメニュー　ハンバーガーアイコン */
+#nav_menu label{
+  display:inline;
+  position:absolute;
+  top:18px;
+  left:20px;
+  width:20px;
+  height:20px;
+  cursor:pointer;
+  user-select:none;
+  opacity:0%;
+  animation:delay 0.5s ease 0.2s 1 forwards;
+}
+
+#nav_menu label span{
+  content:"";
+  width:100%;
+  height:3px;
+  position:absolute;
+  background:#999;
+  border-radius:2px;
+}
+
+#nav_menu label span:nth-child(1){
+  top:1px;
+  animation:x-bar1 0.2s cubic-bezier(1,0,0,1) forwards;
+}
+
+#nav_menu label span:nth-child(2){
+  top:8px;
+  animation:x-bar2 0.2s cubic-bezier(1,0,0,1) forwards;
+}
+
+#nav_menu label span:nth-child(3){
+  top:15px;
+  animation:x-bar3 0.2s cubic-bezier(1,0,0,1) forwards;
+}
+
+#nav_menu input:checked ~ label span:nth-child(1){
+  animation:bar-x1 0.2s cubic-bezier(1,0,0,1) forwards;
+}
+
+#nav_menu input:checked ~ label span:nth-child(2){
+  animation:bar-x2 0.2s cubic-bezier(1,0,0,1) forwards;
+}
+
+#nav_menu input:checked ~ label span:nth-child(3){
+  animation:bar-x3 0.2s cubic-bezier(1,0,0,1) forwards;
+}
+
+/* ナビゲーションメニュー */
+/* ハンバーガーアイコンクリックで表示／非表示切替 */
+#nav_menu input {
+  display:none;
+}
+
+#nav_menu #hidden_show {
+  opacity:0;
+  visibility:hidden;
+  height:0;
+  transition:all 0.2s 0s ease;
+}
+
+#nav_menu input:checked ~ #hidden_show {
+  opacity:1;
+  visibility:visible;
+  height:100%;
+  transition:all 0.2s 0s ease;
+}
+
+/* ナビゲーションメニューリスト */
+#nav_list{
+  width:100%;
+  max-width:1000px;
+  list-style:none;
+  display:flex;
+  position:absolute;
+  top:61px;
+  left:0px;
+}
+
+#nav_list li>a{
+  display:block;
+  background:#fff;
+  padding:10px 0;
+  text-decoration:none;
+  text-align:center;
+  color:#000;
+  box-shadow:
+  0 -1px 0 0 #ccc,  
+  5px 5px 5px 0 rgba(0,0,0,0.2);
+  transition:color 0.4s 0s ease;
+  z-index:0;
+  position:relative;
+  overflow: hidden;
+}
+
+#nav_list li>a:hover{
+  color:black;
+}
+
+#nav_list li>a:hover:before{
+  content:"";
+  width:100%;
+  height:100%;
+  position:absolute;
+  top:0;
+  left:0;
+  z-index:-1;
+  background:#09f;
+  animation:bg_slideX 0.4s cubic-bezier(1,0,0,1);
+}
+
+/* main ------------------------------*/
+main{
+  background:#eee;
+  margin-top:100px;
+}
+
+/* user */
+.user{
+  display:block;
+  width:300px;
+  min-width:300px;
+  height:100%;
+  background:#fff;
+  outline:solid 1px #069;
+  border-radius: 10px;
+  cursor:pointer;
+  max-height:calc(100vh - 100px);
+  overflow-y: auto;
+  scrollbar-width: thin;/*細さ（スクロールバーfirefox）*/
+  scrollbar-color: #ddd #fff;/*つまみの色 軌道の色（スクロールバーfirefox）*/
+  box-shadow:0 5px 5px 0 rgba(0,0,0,0.2);
+
+}
+/* （スクロールバーchrome） */
+::-webkit-scrollbar {/*縦方向スクロールバーの幅*/
+  width:10px;
+}
+::-webkit-scrollbar-track {/*スクロールバーの軌道*/
+  background:#fff;
+}
+::-webkit-scrollbar-thumb {/*つまみの部分*/
+  border-radius: 10px;
+  background: #ddd;
+}
+::-webkit-scrollbar-thumb:hover {/*マウスホバー時*/
+  background: #999;
+}
+
+/* desk */
+#selectdesk{
+  display:flex;
+  flex-flow:column nowrap;
+  justify-content: flex-start;
+  align-items:center;
+
+}
+.desk{
+  display:block;
+  width:100%;
+  height:100%;
+  padding:10px;
+  background:#09f;
+  outline:solid 1px #eee;
+  cursor:pointer;
+  overflow: hidden;
+  position: relative;
+}
+.desk:hover{
+  font-weight: bold;
+}
+.desk input[type="radio"]{
+  display: none;
+}
+.desk label{
+  display:inline-block;
+  width:100%;
+  max-width:calc(100% - 30px);
+  height:100%;
+  cursor:pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: top;
+  color:#fff;
+}
+
+/* …アイコン */
+.desk div{
+  display:inline-block;
+  width:25px;
+  height:25px;
+  position:absolute;
+  left:270px;
+}
+.desk div span{
+  display: block;
+  width:3px;
+  height:3px;
+  position:absolute;
+  left:10px;
+  background:#fff;
+  border-radius:2px;
+}
+.desk div span:nth-child(1){
+  top:5px;
+}
+.desk div span:nth-child(2){
+  top:10px;
+}
+.desk div span:nth-child(3){
+  top:15px;
+}
+.plus{
+  background:#09f;
+  font-size: 1.6rem;
+  text-align: center;
+  color:#fff;
+  justify-content:center;
+  vertical-align:middle;
+}
+.plus span{
+  font-weight:bold;
+  font-size: 3rem;
+  vertical-align:middle;
+  margin-right:5px;
+}
+.desk:hover{
+  font-weight:normal;
+}
+.deskname{
+  display:inline;
+}
+.submitbtn{
+  color:#fff;
+  border-radius: 10px;
+  font-size:1.6rem;
+  width:300px;
+  height:40px;
+  cursor:pointer;
+  background:#999;
+  border:1px solid #333;
+  margin-top:20px;
+}
+.open {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: .2s;
+}
+.open-inner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  width: calc(100vw - 200px);
+  max-width: 730px;
+  max-height: calc(100vh - 200px);
+  padding: 50px;
+  background-color: #fff;
+  z-index: 2;
+  border-radius: 5px;
+  overflow-y: auto;
+  scrollbar-width: thin;/*細さ（スクロールバーfirefox）*/
+  scrollbar-color: #ddd #fff;/*つまみの色 軌道の色（スクロールバーfirefox）*/
+}
+.open-inner p{
+  width: 100%;
+}
+.open-inner th{
+  text-align: left;
+  background: #eee;
+}
+.open-inner table{
+  width:100%;
+}
+.open-inner textarea{
+  width:calc(100% - 8px);
+  margin-bottom:20px;
+}
+.open-inner input{
+  margin-bottom:20px;
+}
+.open-inner input[type="text"]{
+  width:calc(100% - 8px);
+}
+.open-inner>button{
+  color:#fff;
+  border-radius: 10px;
+  font-size:1.6rem;
+  width:100px;
+  height:40px;
+  cursor:pointer;
+}
+.open-inner #deskchange_btn{
+  background:#09f;
+  border:1px solid #069;
+}
+.open-inner #deskdelete_btn{
+  background:#999;
+  border:1px solid #333;
+  margin-left:calc(100% - 210px);
+}
+.close-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 20px;
+  color: #333;
+}
+.black-background {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,.3);
+  z-index: 1;
+  cursor: pointer;
+}
+.is-show {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+
+/* media query breakpoints ------------------------------*/
+/* スマホサイズ */
+@media screen and (min-width: 0px) and (max-width: 690px){
+  #nav_list{
+    flex-flow:column nowrap;
+  }
+}
+
+/* PCサイズ */
+@media screen and (min-width: 691px) {
+  #nav_list{
+    flex-flow:column nowrap;
+  } 
+
+  #nav_list li{
+    width:300px;
+  }
+}
+
+
+/* animation ------------------------------*/
+@keyframes bg_slideX{
+  0%{transform-origin:left top; transform:scaleX(0);}
+  100%{transform-origin:left top; transform:scaleX(1);}
+}
+
+@keyframes bg_slideY{
+  0%{transform-origin:left top; transform:scaleY(0);}
+  100%{transform-origin:left top; transform:scaleY(1);}
+}
+
+@keyframes delay{
+  0%{opacity:0%;}
+  100%{opacity:100%;}
+}
+
+@keyframes bar-x1{
+  0%{width:100%; top:1px; left:0%;}
+  50%{width:20%; top:8px; left:40%;}
+  100%{width:100%; top:8px; left:0%; transform:rotate(-45deg);}
+}
+
+@keyframes bar-x2{
+  0%{width:100%; opacity:1; left:0%;}
+  50%{width:20%; opacity:0; left:40%;}
+  100%{width:20%; opacity:0; left:0%;}
+}
+
+@keyframes bar-x3{
+  0%{width:100%; top:15px; left:0%;}
+  50%{width:20%; top:8px; left:40%;}
+  100%{width:100%; top:8px; left:0%; transform:rotate(45deg);}
+}
+
+@keyframes x-bar1{
+  0%{width:100%; top:8px; left:0%; transform:rotate(-45deg);}
+  50%{width:20%; top:8px; left:40%;}
+  100%{width:100%; top:1px; left:0%;}
+}
+
+@keyframes x-bar2{
+  0%{width:20%; opacity:0; left:0%;}
+  50%{width:20%; opacity:0; left:40%;}
+  100%{width:100%; opacity:1; left:0%;}
+}
+
+@keyframes x-bar3{
+  0%{width:100%; top:8px; left:0%; transform:rotate(45deg);}
+  50%{width:20%; top:8px; left:40%;}
+  100%{width:100%; top:15px; left:0%;}
+}
