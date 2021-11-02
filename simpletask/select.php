@@ -412,6 +412,7 @@ let obj_opendesk = {};//deskの中身（変更前）
 
     // deskドラッグ
     let dragid;
+    let leaveelm;
     function deskDrag(elm){
       elm.ondragstart = function () {
         event.dataTransfer.setData('text/plain', event.target.id);
@@ -423,6 +424,10 @@ let obj_opendesk = {};//deskの中身（変更前）
         event.dataTransfer.dropEffect = "move";
         if(dragid.match(/desk/)){
           let rect = this.getBoundingClientRect();
+          if(leaveelm){// 広げた隙間を戻す
+            leaveelm.style.borderTop = '';
+            leaveelm.style.borderBottom = '';
+          }
           if ((event.clientY - rect.top) > (this.clientHeight / 2) || this.id.match(/plus/)) {//マウスカーソルの位置が要素の半分より下 or //+ボタンは下にのみ挿入可
             this.style.borderTop = '';
             this.style.borderBottom = '50px solid #eee';
@@ -430,11 +435,8 @@ let obj_opendesk = {};//deskの中身（変更前）
             this.style.borderTop = '50px solid #eee';
             this.style.borderBottom = '';
           }
+          leaveelm = this;
         }
-      };
-      elm.ondragleave = function () {
-        this.style.borderTop = '';
-        this.style.borderBottom = '';
       };
       elm.ondrop = function () {
         event.preventDefault();
@@ -462,12 +464,12 @@ let obj_opendesk = {};//deskの中身（変更前）
           if(dropindex < dragindex){
             dragindex += 1;
           }
-
           eval("arr_desk.splice(dropindex,0,dragdesk);");
           eval("arr_desk.splice(dragindex,1);");
-
-          this.style.borderTop = '';
-          this.style.borderBottom = '';
+          if(leaveelm){// 広げた隙間を戻す
+            leaveelm.style.borderTop = '';
+            leaveelm.style.borderBottom = '';
+          }
 
           // DBに書き込み
           eval("array = arr_desk;");
@@ -476,6 +478,12 @@ let obj_opendesk = {};//deskの中身（変更前）
           })));
           obj.userid = draguser;
           postFetch_userdata_table(obj);// userdata_table更新
+        }
+      };
+      elm.ondragend = function () {
+        if(leaveelm){// 広げた隙間を戻す
+          leaveelm.style.borderTop = '';
+          leaveelm.style.borderBottom = '';
         }
       };
     };
