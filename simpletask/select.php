@@ -428,7 +428,7 @@ let obj_opendesk = {};//deskの中身（変更前）
             leaveelm.style.borderTop = '';
             leaveelm.style.borderBottom = '';
           }
-          if ((event.clientY - rect.top) > (this.clientHeight / 2) || this.id.match(/plus/)) {//マウスカーソルの位置が要素の半分より下 or //+ボタンは下にのみ挿入可
+          if ((event.clientY - rect.top) > (this.clientHeight / 2) || this.id.match(/plus/)) {//マウスカーソルの位置が要素の半分より下 or +ボタンは下にのみ挿入可
             this.style.borderTop = '';
             this.style.borderBottom = '50px solid #eee';
           } else {//マウスカーソルの位置が要素の半分より上
@@ -455,7 +455,7 @@ let obj_opendesk = {};//deskの中身（変更前）
           li = ul.querySelectorAll("li");
           dropindex = Array.prototype.indexOf.call(li,this)-1;
 
-          if ((event.clientY - rect.top) > (this.clientHeight / 2) || this.id.match(/plus/)) {//マウスカーソルの位置が要素の半分より下 or //+ボタンは下にのみ挿入可
+          if ((event.clientY - rect.top) > (this.clientHeight / 2) || this.id.match(/plus/)) {//マウスカーソルの位置が要素の半分より下 or +ボタンは下にのみ挿入可
             this.parentNode.insertBefore(elm_drag, this.nextSibling);
             dropindex += 1;
           } else {//マウスカーソルの位置が要素の半分より上

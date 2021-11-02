@@ -1081,12 +1081,12 @@
             leaveelm.style.borderLeft = '';
             leaveelm.style.borderRight = '';
           }
-          if ((event.clientX - rect.left) > (this.clientWidth / 2)) {//マウスカーソルの位置が要素の半分より右
-            this.style.borderLeft = '';
-            this.style.borderRight = '100px solid #eee';
-          } else {//マウスカーソルの位置が要素の半分より左
+          if ((event.clientX - rect.left) < (this.clientWidth / 2) || this.id.match(/plus/)) {//マウスカーソルの位置が要素の半分より左 or +ボタンの左にのみ挿入可
             this.style.borderLeft = '100px solid #eee';
             this.style.borderRight = '';
+          } else {//マウスカーソルの位置が要素の半分より右
+            this.style.borderLeft = '';
+            this.style.borderRight = '100px solid #eee';
           }
           leaveelm = this;
         }
@@ -1104,11 +1104,11 @@
           dragindex = Array.prototype.indexOf.call(div,elm_drag);
           dropindex = Array.prototype.indexOf.call(div,this);
 
-          if ((event.clientX - rect.left) > (this.clientWidth / 2)) {//マウスカーソルの位置が要素の半分より右
+          if ((event.clientX - rect.left) < (this.clientWidth / 2) || this.id.match(/plus/)) {//マウスカーソルの位置が要素の半分より左 or +ボタンの左にのみ挿入可
+            this.parentNode.insertBefore(elm_drag, this);
+          } else {//マウスカーソルの位置が要素の半分より右
             this.parentNode.insertBefore(elm_drag, this.nextSibling);
             dropindex += 1;
-          } else {//マウスカーソルの位置が要素の半分より左
-            this.parentNode.insertBefore(elm_drag, this);
           }
           if(dropindex < dragindex){
             dragindex += 1;
@@ -1154,7 +1154,7 @@
             leaveelm.style.borderTop = '';
             leaveelm.style.borderBottom = '';
           }
-          if ((event.clientY - rect.top) > (this.clientHeight / 2) || this.id.match(/plus/)) {//マウスカーソルの位置が要素の半分より下 or //+ボタンは下にのみ挿入可
+          if ((event.clientY - rect.top) > (this.clientHeight / 2) || this.id.match(/plus/)) {//マウスカーソルの位置が要素の半分より下 or +ボタンの下にのみ挿入可
             this.style.borderTop = '';
             this.style.borderBottom = '50px solid #eee';
           } else {//マウスカーソルの位置が要素の半分より上
@@ -1182,7 +1182,7 @@
           li = ul.querySelectorAll("li");
           dropindex = Array.prototype.indexOf.call(li,this)-1;
 
-          if ((event.clientY - rect.top) > (this.clientHeight / 2) || this.id.match(/plus/)) {//マウスカーソルの位置が要素の半分より下 or //+ボタンは下にのみ挿入可
+          if ((event.clientY - rect.top) > (this.clientHeight / 2) || this.id.match(/plus/)) {//マウスカーソルの位置が要素の半分より下 or +ボタンの下にのみ挿入可
             this.parentNode.insertBefore(elm_drag, this.nextSibling);
             dropindex += 1;
           } else {//マウスカーソルの位置が要素の半分より上
