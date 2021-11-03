@@ -116,6 +116,7 @@
           <nav>
             <ul id="nav_list">
               <li><a href="logout.php">log out</a></li>
+              <li><a href="deleteuser.php">退会</a></li>
             </ul>
           </nav>
         </div>
@@ -157,7 +158,7 @@
 <?php $arr_desk = json_encode($arr_desk); ?>
 <?php echo "let userid = ".$userid.";",PHP_EOL; ?>
 
-let obj_opendesk = {};//deskの中身（変更前）
+    let obj_opendesk = {};//deskの中身（変更前）
 
     // （Fetch）userdataテーブル更新
     const postFetch_userdata_table = (obj) => {
@@ -385,7 +386,7 @@ let obj_opendesk = {};//deskの中身（変更前）
       })));
       obj.userid = obj_opendesk['userid'];
       obj.deskid = obj_opendesk['deskid'];
-      postFetch_deletedesk(obj);// desk_table、desk_tableからdesk削除
+      postFetch_deletedesk(obj);// desk_table、userdata_tableからdesk削除
       arr_desk.pop();// nullを削除
       closeDesk();//編集画面を閉じる
       elm.remove();//desk要素削除

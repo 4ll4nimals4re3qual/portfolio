@@ -1,0 +1,183 @@
+@charset "UTF-8";
+
+body,h1,p,ul,ol,li,dl,dt,dd,header,main,nav,footer,section,figure,figcaption,table,tbody,tr,th,td{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  font-size:62.5%;
+  scroll-behavior:smooth;
+}
+
+img{
+  border:0;
+  vertical-align:top;
+}
+
+body{
+  font-family:"Hiragino Kaku Gothic ProN","ヒラギノ角ゴ ProN W3","Yu Gothic",游ゴシック,YuGothic,游ゴシック体,Meiryo,メイリオ,sans-serif;
+  font-size:1.6rem;
+  background:#eee;
+
+}
+
+#wrapper{
+  width:100%;
+  margin:0 auto;
+}
+
+
+/* header ------------------------------*/
+/* ヘッダー全体 */
+header{
+  display:flex;
+  width:100%;
+  height:60px;
+  position:fixed;
+  z-index:9999;
+  top:0;
+  left:0;
+  background:#fff;
+  padding:12px 0 0 0;
+  box-shadow:0 5px 5px 0 rgba(0,0,0,0.2);
+}
+
+/* ヘッダー文字 */
+header h1 span{
+  font-family: 'Palette Mosaic', cursive;
+}
+
+header h1{
+  color:#09f;
+  font-size:2rem;
+  font-family: 'Coiny', cursive;
+  margin-left:20px;
+  font-weight: normal;
+}
+
+header a{
+  font-size:1.6rem;
+  text-decoration: none;
+  margin-right:20px;
+}
+
+header .right{
+  margin-left:auto;
+}
+
+
+/* main ------------------------------*/
+main{
+  margin-top:100px;
+  display:flex;
+  flex-flow:column nowrap;
+  justify-content: flex-start;
+  align-items:center;
+  /* padding:10px; */
+}
+
+main h1 span{
+  font-family: 'Palette Mosaic', cursive;
+}
+
+main h1{
+  color:#09f;
+  text-shadow:5px 5px 5px #ccc;
+  font-size: 5rem;
+  font-family: 'Coiny', cursive;
+  font-weight: normal;
+}
+
+main input{
+  width:200px;
+  height:30px;
+  margin-top:10px;
+}
+
+main .caption{
+  font-size:1.4rem;
+  color:#666;
+}
+
+main .submitbtn{
+  background:#09f;
+  color:#fff;
+  border:1px solid #069;
+  border-radius: 10px;
+  font-size:1.6rem;
+  box-shadow:5px 5px 5px 0 rgba(0,0,0,0.2);
+  width:208px;
+  height:40px;
+  margin-top:20px;
+  cursor:pointer;
+}
+
+main .backbtn{
+  background:#999;
+  color:#fff;
+  border:1px solid #333;
+  border-radius: 10px;
+  font-size:1.6rem;
+  box-shadow:5px 5px 5px 0 rgba(0,0,0,0.2);
+  width:208px;
+  height:40px;
+  margin-top:20px;
+  cursor:pointer;
+}
+
+main .deletebtn{
+  background:#f33;
+  color:#fff;
+  border:1px solid #933;
+  border-radius: 10px;
+  font-size:1.6rem;
+  box-shadow:5px 5px 5px 0 rgba(0,0,0,0.2);
+  width:208px;
+  height:40px;
+  margin-top:20px;
+  cursor:pointer;
+}
+
+main p{
+  margin-top:10px;
+  text-align:center;
+}
+
+main a{
+  margin-top:10px;
+  text-decoration: none;
+}
+
+main img{
+  width:1330px;
+  max-width:calc(100vw - 100px);
+  border:1px solid #069;
+  border-radius: 10px 10px 0px 0px;
+  overflow: hidden;
+  margin-bottom:20px;
+  box-shadow:5px 5px 5px 0 rgba(0,0,0,0.2);
+}
+main .btn{
+  background:#fff;
+  border-radius: 10px;
+  color:#666;
+  border:1px solid #666;
+  border-radius: 10px;
+  font-size:1.6rem;
+  box-shadow:5px 5px 5px 0 rgba(0,0,0,0.2);
+  width:208px;
+  height:40px;
+  margin-bottom:20px;
+  cursor:pointer;
+  text-align: center;
+  line-height: 4rem;
+  transition: 0.2s;
+}
+
+main .btn:hover{
+  background:#09f;
+  color:#fff;
+  border:1px solid #069;
+}

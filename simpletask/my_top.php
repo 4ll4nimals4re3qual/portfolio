@@ -545,6 +545,7 @@
           newElement.setAttribute("class","item plus");
           newElement.setAttribute("onclick","addItem(event)");
           newElement.innerHTML = "+";
+          itemDrag(newElement);
           let elm_ul = elm_div.querySelector('ul');
           elm_ul.appendChild(newElement); // 要素追加
 
