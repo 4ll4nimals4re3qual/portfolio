@@ -20,7 +20,7 @@
       $listid = '`'.$key.'`=:'.$key;//`listid`=:listid
     elseif(preg_match('/listname/',$key)):
       if(!preg_match('/^[ぁ-んァ-ヶー々一-龠０-９a-zA-Z0-9 ]{1,256}+$/',$value)):
-        $errors['listname'] = 'タイトルは半角256文字以内で入力してください';
+        $errors['listname'] = '許可されていない文字が入力されたか文字数が長すぎます';
       else:
         $set .= '`'.$key.'`=:'.$key.',';//`listname`=:listname
       endif;

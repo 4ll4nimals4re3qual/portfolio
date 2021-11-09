@@ -13,7 +13,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="login.css">
+  <link rel="stylesheet" href="index.css">
   <link rel="icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,27 +34,27 @@
 
     // （Fetch）userテーブル、userdataテーブルからuser削除
     const postFetch_deleteuser = (obj) => {
-      fetch('fetch_deleteuser.php', {
+      return fetch('fetch_deleteuser.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify(obj)
-      })
-      .then(response => response.text())
-      .then(data => console.log(data));
+      });
+      // .then(response => response.text());
+      // .then(data => console.log(data));
     }
 
     // user削除
     function deleteUser(){
-        // DBから削除
-        const obj = {
-          userid: userid
-        };
-        postFetch_deleteuser(obj);// user_tableからuser削除
-      
+      // DBから削除
+      const obj = {
+        userid: userid
+      };
+      let promise = postFetch_deleteuser(obj);// user_tableからuser削除
+      promise.then(result => {
         location.href = 'https://simpletask.sakura.ne.jp/';
-      // }
+      });
     }
 
   </script>

@@ -20,7 +20,7 @@
       $deskid = '`'.$key.'`=:'.$key;//`deskid`=:deskid
     elseif(preg_match('/deskname/',$key)):
       if(!preg_match('/^[ぁ-んァ-ヶー々一-龠０-９a-zA-Z0-9 ]{1,256}+$/',$value)):
-        $errors['deskname'] = 'タイトルは半角256文字以内で入力してください';
+        $errors['deskname'] = '許可されていない文字が入力されたか文字数が長すぎます';
       else:
         $set .= '`'.$key.'`=:'.$key.',';//`deskname`=:deskname
       endif;

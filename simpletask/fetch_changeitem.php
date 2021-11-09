@@ -22,7 +22,7 @@
       $set .= '`'.$key.'`=:'.$key.',';//`listid`=:listid
     elseif(preg_match('/itemname/',$key)):
       if(!preg_match('/^[ぁ-んァ-ヶー々一-龠０-９a-zA-Z0-9 \r\n]{0,256}+$/',$value)):
-        $errors['itemname'] = 'タイトルは半角256文字以内で入力してください';
+        $errors['itemname'] = 'タスク：許可されていない文字が入力されたか文字数が長すぎます';
       else:
         $set .= '`'.$key.'`=:'.$key.',';//`itemname`=:itemname
       endif;
@@ -30,7 +30,7 @@
       $set .= '`'.$key.'`=:'.$key.',';//`limitdate`=:limitdate
     elseif(preg_match('/text/',$key)):
       if(!preg_match('/^[ぁ-んァ-ヶー々一-龠０-９a-zA-Z0-9 \r\n]{0,256}+$/',$value)):
-        $errors['text'] = '内容は半角256文字以内で入力してください';
+        $errors['text'] = 'コメント：許可されていない文字が入力されたか文字数が長すぎます';
       else:
         $set .= '`'.$key.'`=:'.$key.',';//`text`=:text
       endif;
@@ -57,7 +57,7 @@
       endif;
     elseif(preg_match('/tag/',$key)):
       if(!preg_match('/^[#a-zA-Z0-9 ]{0,256}+$/',$value)):
-        $errors['tag'] = 'タグは半角英数256文字以内で入力してください';
+        $errors['tag'] = 'タグ：許可されていない文字が入力されたか文字数が長すぎます';
       else:
         $set .= '`'.$key.'`=:'.$key.',';//`tag`=:tag
       endif;

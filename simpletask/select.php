@@ -115,6 +115,7 @@
         <div id="hidden_show">
           <nav>
             <ul id="nav_list">
+              <li><a href="index.html">top</a></li>
               <li><a href="logout.php">log out</a></li>
               <li><a href="deleteuser.php">退会</a></li>
             </ul>

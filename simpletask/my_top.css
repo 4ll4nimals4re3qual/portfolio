@@ -38,6 +38,7 @@ button,input,select,textarea {
 /* ヘッダー全体 */
 header{
   display:flex;
+  flex-flow:row nowrap;
   width:100%;
   height:48px;
   position:fixed;
@@ -62,11 +63,33 @@ header h1{
   font-weight: normal;
 }
 
-/* header a{
-  font-size:1.6rem;
-  text-decoration: none;
+header .search{
+  width:100%;
+  height:30px;
+  max-width:240px;
+  margin:0 10px;
+}
+
+header .search_btn{
+  min-width:48px;
+  height:36px;
   margin-right:20px;
-} */
+}
+
+header #search_result{
+  position:absolute;
+  margin-left:auto;
+  height:100vh;
+  top:60px;
+  right:0px;
+  box-shadow:-5px 5px 5px 0 rgba(0,0,0,0.2);
+  cursor:default;
+}
+
+.search_hidden{
+  opacity: 0;
+  visibility: hidden;
+}
 
 header .right{
   margin-left:auto;
@@ -222,6 +245,7 @@ main{
   cursor:pointer;
   max-height:calc(100vh - 110px);
   overflow-y: auto;
+  scroll-behavior:smooth;
   scrollbar-width: thin;/*細さ（スクロールバーfirefox）*/
   scrollbar-color: #ddd #fff;/*つまみの色 軌道の色（スクロールバーfirefox）*/
 }
@@ -259,6 +283,7 @@ main{
   cursor:pointer;
   overflow: hidden;
   box-shadow:0 5px 10px 0 rgba(0,0,0,0.2);
+  transition:background 1s;
 }
 .plus{
   background:#fff;
@@ -266,6 +291,10 @@ main{
   font-size: 3rem;
   text-align: center;
   color:#000;
+}
+.itemname{
+  overflow-wrap: break-word;
+  word-break: break-all;
 }
 .itemname,.checkable{
   display:inline;
@@ -420,7 +449,6 @@ main{
   opacity: 1;
   visibility: visible;
 }
-
 
 
 /* media query breakpoints ------------------------------*/

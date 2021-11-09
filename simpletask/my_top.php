@@ -1,16 +1,21 @@
 <?php
-  // post以外はdesk選択
-  if($_SERVER['REQUEST_METHOD'] !== 'POST'):
-    exit('ログインしなおしてください<p><a href="login.html">log in</a></p>');
-  else:
-    $deskid = $_POST['deskid'];
-  endif;
-
+  session_cache_limiter('private_no_expire');
   session_start();
   session_regenerate_id(true);
   if(!isset($_SESSION['userid'])):
     exit('ログインしなおしてください<p><a href="login.html">log in</a></p>');
   endif;
+
+    // deskidチェック
+    if($_SERVER['REQUEST_METHOD'] === 'POST'):
+      $deskid = $_POST['deskid'];
+      $_SESSION['deskid'] = $_POST['deskid'];
+    elseif(isset($_SESSION['deskid'])):
+      $deskid = $_SESSION['deskid'];
+    else:
+      exit('ログインしなおしてください<p><a href="login.html">log in</a></p>');
+    endif;
+
 
   // データベースに接続
   try{
@@ -212,6 +217,19 @@
   <div id="wrapper">
     <header>
       <h1><span>S</span></h1>
+      <div id="nav_menu">
+        <input type="checkbox" id="nav_check">
+        <label for="nav_check"><span></span><span></span><span></span></label>
+        <div id="hidden_show">
+          <nav>
+            <ul id="nav_list">
+              <li><a href="index.html">top</a></li>
+              <li><a href="select.php">デスクの編集</a></li>
+              <li><a href="logout.php">log out</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
       <form action="" method="post" onchange="submit(this.form)">
         <select class="dropdown" name="deskid">
 <?php
@@ -230,23 +248,15 @@
 ?>
         </select>
       </form>
-      <div id="nav_menu">
-        <input type="checkbox" id="nav_check">
-        <label for="nav_check"><span></span><span></span><span></span></label>
-        <div id="hidden_show">
-          <nav>
-            <ul id="nav_list">
-              <li><a href="select.php">デスクの編集</a></li>
-              <li><a href="logout.php">log out</a></li>
-            </ul>
-          </nav>
-        </div>
+      <input type="text" name="search" class="search right" placeholder="🔍search" oninput="search_hidden(event)">
+      <button class="search_btn" onclick="search(event)">検索</button>
+      <div id="search_result" class="list search_hidden">
       </div>
     </header>
     <main>
-      <div class="open" id="js-openitem">
+      <div class="open" id="openitem">
         <div class="open-inner">
-          <div class="close-btn" id="js-close-btn" onclick="closeItem(event)">×</div>
+          <div class="close-btn" id="close-btn" onclick="closeItem(event)">×</div>
           <form action="" method="post" name="form_item">
             <table>
               <tbody>
@@ -313,9 +323,9 @@
         </div>
         <div class="black-background" onclick="closeItem(event)"></div>
       </div>
-      <div class="open" id="js-openlist">
+      <div class="open" id="openlist">
         <div class="open-inner">
-          <div class="close-btn" id="js-close-btn" onclick="closeList(event)">×</div>
+          <div class="close-btn" id="close-btn" onclick="closeList(event)">×</div>
           <form action="" method="post" name="form_list">
             <table>
               <tbody>
@@ -351,9 +361,6 @@
 ?>
 <?php $pdo = null; ?>
     </main>
-    <footer>
-      
-    </footer>
   </div>
   <script>
     // jsにlistの配列を作成  
@@ -499,6 +506,19 @@
       // .then(data => console.log(data));
     }
 
+    // （Fetch）/itemdata_tableから検索したレコードを取得
+    const postFetch_search = (obj) => {
+      return fetch('fetch_search.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(obj)
+      })
+      .then(response => response.json());
+      // .then(data => console.log(data));
+    }
+
     // list追加
     function addList(e){
       if(arr_list.length < 10){// list上限10件まで
@@ -581,7 +601,7 @@
             }
           }
           // ダイアログ表示
-          let openlist = document.getElementById('js-openlist');
+          let openlist = document.getElementById('openlist');
           openlist.classList.add('is-show');
         });
       }
@@ -590,7 +610,7 @@
     // list編集画面閉じる
     function closeList(e){
       // ダイアログ閉じる
-      let openlist = document.getElementById('js-openlist');
+      let openlist = document.getElementById('openlist');
       openlist.classList.remove('is-show');
     }
 
@@ -806,7 +826,7 @@
           }
         }
         // ダイアログ表示
-        let openitem = document.getElementById('js-openitem');
+        let openitem = document.getElementById('openitem');
         openitem.classList.add('is-show');
       });
     }
@@ -814,7 +834,7 @@
     // item編集画面閉じる
     function closeItem(e){
       // ダイアログ閉じる
-      let openitem = document.getElementById('js-openitem');
+      let openitem = document.getElementById('openitem');
       openitem.classList.remove('is-show');
     }
 
@@ -1041,7 +1061,6 @@
       }else{
         formdata.append("checked", 0);
       }
-      // 画面更新用
       const date = new Date();
       const Y = date.getFullYear();
       const M = ("00" + (date.getMonth()+1)).slice(-2);
@@ -1076,7 +1095,6 @@
         if(dragid.match(/list/)){
           event.preventDefault();
           event.dataTransfer.dropEffect = "move";
-          // console.log(this.tagName);
           let rect = this.getBoundingClientRect();
           if(leaveelm){// 広げた隙間を戻す
             leaveelm.style.borderLeft = '';
@@ -1233,6 +1251,111 @@
     document.querySelectorAll('.list').forEach(listDrag);
     document.querySelectorAll('.item').forEach(itemDrag);
     
+    // 検索
+    function search(e){
+      let searchelm = document.querySelector('.search');
+      const obj = {
+        userid: userid,
+        deskid: deskid,
+        search: searchelm.value
+      };
+      let promise = postFetch_search(obj);// 検索ワードをDBから抽出
+      promise.then(result => {
+        let elm_result = document.getElementById('search_result');
+        elm_result.innerHTML = "";// 検索結果初期化
+        if(result[0] === ""){// 検索結果が0件なら
+          newElement = document.createElement("p"); // p要素作成
+          newElement.innerHTML = '検索結果なし';
+          elm_result.appendChild(newElement); // 要素追加
+        }else{
+          let newElement = document.createElement("ul"); // ul要素作成
+          newElement.setAttribute("id","search_list"); // 要素に属性を設定
+          elm_result.appendChild(newElement); // 要素追加
+          // データの中身だけ抽出
+          for (const [key, value] of Object.entries(result)) {
+            // li
+            newElement = document.createElement("li"); // li要素作成
+            newElement.setAttribute("id","itemS" + value['itemid']); // 要素に属性を設定
+            newElement.setAttribute("class","item");
+            if(value['pin']){
+              newElement.classList.add("pin");
+            }
+            // newElement.setAttribute("onclick","window.location.href='#item" + value['itemid'] + "'");
+            newElement.setAttribute("onclick","search_move(event)");
+            newElement.setAttribute("style","background:" + value['color']);
+            let elm_ul = document.getElementById('search_list');
+            elm_ul.appendChild(newElement); // 要素追加
+  
+            // liの中に要素追加
+            // input
+            newElement = document.createElement("input"); // input要素作成
+            let str;
+            newElement.setAttribute("type","hidden"); // 要素に属性を設定
+            newElement.checked = false;
+            if(value['checkable']){
+              newElement.setAttribute("type","checkbox");
+              newElement.setAttribute("disabled","disabled");
+            }
+            if(value['checked']){
+              newElement.checked = true;
+            }
+            newElement.setAttribute("id","checkable" + value['itemid']);
+            newElement.setAttribute("class","checkable");
+            newElement.setAttribute("onchange","changeChecked(event)");
+            let elm_li = document.getElementById('itemS' + value['itemid']);
+            elm_li.appendChild(newElement); // 要素追加
+  
+            // p
+            newElement = document.createElement("p"); // p要素作成
+            newElement.setAttribute("class","itemname"); // 要素に属性を設定
+            newElement.innerHTML = value['itemname'].replace(/\r?\n/g, '<br>');
+            elm_li.appendChild(newElement); // 要素追加
+  
+            // img
+            newElement = document.createElement("img"); // img要素作成
+            newElement.setAttribute("src",value['image']); // 要素に属性を設定
+            newElement.setAttribute("class","thumbnail");
+            newElement.setAttribute("alt","thumbnail");
+            newElement.style.display = "none";
+            if(value['image']){
+              newElement.style.display = "inherit";
+            }
+            elm_li.appendChild(newElement); // 要素追加
+          }
+        }
+        // 検索結果表示
+        elm_result.classList.remove('search_hidden');
+      });
+    }
+
+    // 検索結果クリックで移動
+    function search_move(e){
+      let clickelm;
+      if(e.target.id.match(/item/)){
+        clickelm = e.target;
+      }else{
+        clickelm = e.target.parentNode;
+      }
+      let targetid = clickelm.id.replace('S','');
+      window.location.href = '#' + targetid;
+      // 点滅させる
+      let targetelm = document.getElementById(targetid);
+      let style = targetelm.getAttribute('style');
+      if(style != 'background:#ffff00'){
+        targetelm.setAttribute('style','background:#ffff00');
+        setTimeout(function(){
+          targetelm.setAttribute('style',style);
+        },1000);
+      }
+    }
+
+    // 検索ワード削除で検索結果非表示
+    function search_hidden(e){
+      if(!e.target.value){
+        let elm_result = document.getElementById('search_result');
+        elm_result.classList.add('search_hidden');
+      }
+    }
   </script>
 </body>
 </html>
