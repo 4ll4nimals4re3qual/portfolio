@@ -16,7 +16,7 @@
   $result_flg = false;
   // 検索キーワードがあるとき
   if(strlen($_POST['search'])):
-    $sql = 'SELECT * FROM `item_table` WHERE `userid`=:userid and `deskid`=:deskid and `itemname` LIKE \'%'.htmlspecialchars($_POST['search']).'%\' or `text` LIKE \'%'.htmlspecialchars($_POST['search']).'%\' or `tag` LIKE \'%'.htmlspecialchars($_POST['search']).'%\'';
+    $sql = 'SELECT * FROM `item_table` WHERE `userid`=:userid and `deskid`=:deskid and (`itemname` LIKE \'%'.htmlspecialchars($_POST['search']).'%\' or `text` LIKE \'%'.htmlspecialchars($_POST['search']).'%\' or `tag` LIKE \'%'.htmlspecialchars($_POST['search']).'%\')';
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':userid',$_POST['userid']);
     $stmt->bindParam(':deskid',$_POST['deskid']);
