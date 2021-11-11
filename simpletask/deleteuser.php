@@ -45,15 +45,44 @@
       // .then(data => console.log(data));
     }
 
+    // （Fetch）imageURL取得
+    const postFetch_getimagesrc = (obj) => {
+      return fetch('fetch_getimagesrc.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(obj)
+      })
+      .then(response => response.json());
+      // .then(data =>  console.log(data));
+    }
+
+    // （Fetch）imagesの画像ファイルを削除
+    const postFetch_deleteimage = (text) => {
+      fetch('fetch_deleteimage.php', {
+        method: 'POST',
+        body: text
+      });
+      // .then(response => response.text())
+      // .then(data => console.log(data));
+    }
+
     // user削除
     function deleteUser(){
       // DBから削除
       const obj = {
         userid: userid
       };
-      let promise = postFetch_deleteuser(obj);// user_tableからuser削除
+      let promise = postFetch_getimagesrc(obj);
       promise.then(result => {
-        location.href = 'https://simpletask.sakura.ne.jp/';
+        for (const [key, value] of Object.entries(result)) {
+          postFetch_deleteimage(value['image']);// 添付画像ファイル削除
+        }
+        let promise = postFetch_deleteuser(obj);// user_tableからuser削除
+        promise.then(result => {
+          location.href = 'https://simpletask.sakura.ne.jp/';
+        });
       });
     }
 

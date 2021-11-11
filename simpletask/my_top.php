@@ -6,15 +6,15 @@
     exit('ログインしなおしてください<p><a href="login.html">log in</a></p>');
   endif;
 
-    // deskidチェック
-    if($_SERVER['REQUEST_METHOD'] === 'POST'):
-      $deskid = $_POST['deskid'];
-      $_SESSION['deskid'] = $_POST['deskid'];
-    elseif(isset($_SESSION['deskid'])):
-      $deskid = $_SESSION['deskid'];
-    else:
-      exit('ログインしなおしてください<p><a href="login.html">log in</a></p>');
-    endif;
+  // deskidチェック
+  if($_SERVER['REQUEST_METHOD'] === 'POST'):
+    $deskid = $_POST['deskid'];
+    $_SESSION['deskid'] = $_POST['deskid'];
+  elseif(isset($_SESSION['deskid'])):
+    $deskid = $_SESSION['deskid'];
+  else:
+    exit('ログインしなおしてください<p><a href="login.html">log in</a></p>');
+  endif;
 
 
   // データベースに接続
@@ -496,7 +496,7 @@
       // .then(data => console.log(data));
     }
 
-    // （Fetch）/imagesの画像ファイルを削除
+    // （Fetch）imagesの画像ファイルを削除
     const postFetch_deleteimage = (text) => {
       fetch('fetch_deleteimage.php', {
         method: 'POST',
@@ -506,7 +506,7 @@
       // .then(data => console.log(data));
     }
 
-    // （Fetch）/itemdata_tableから検索したレコードを取得
+    // （Fetch）itemdata_tableから検索したレコードを取得
     const postFetch_search = (obj) => {
       return fetch('fetch_search.php', {
         method: 'POST',
@@ -674,6 +674,12 @@
       obj.deskid = obj_openlist['deskid'];
       obj.listid = obj_openlist['listid'];
       postFetch_deletelist(obj);// list_table、desk_tableからlist削除
+      for(const li of elm.querySelectorAll("li")){
+        let imgelm = li.querySelector('img');
+        if(imgelm){
+          postFetch_deleteimage(imgelm.getAttribute('src'));// 添付画像ファイル削除
+        }
+      }
       arr_list.pop();// nullを削除
       closeList();//編集画面を閉じる
       elm.remove();//list要素削除
@@ -1022,12 +1028,14 @@
       obj.listid = obj_openitem['listid']; 
       obj.itemid = obj_openitem['itemid'];
       postFetch_deleteitem(obj);// item_table、list_tableからitem削除
+      let imgelm = elm.querySelector('img');
+      postFetch_deleteimage(imgelm.getAttribute('src'));// 添付画像ファイル削除
       eval("arr_item" + obj_openitem['listid'] + ".pop();");// nullを削除
       closeItem();//編集画面を閉じる
       elm.remove();//item要素削除
     }
 
-    // image変更
+    // 画像添付プレビュー変更
     function imgChange(e){
       let imgelm = document.getElementById('imageview');
       // FileReaderを生成
@@ -1042,7 +1050,7 @@
       fileReader.readAsDataURL(file);
     }
 
-    // image削除
+    // 画像添付プレビュー削除
     function deleteimage(){
       let imgelm = document.getElementById('imageview');
       imgelm.setAttribute("src","");

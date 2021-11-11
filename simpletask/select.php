@@ -223,6 +223,29 @@
       // .then(data => console.log(data));
     }
 
+    // （Fetch）imageURL取得
+    const postFetch_getimagesrc = (obj) => {
+      return fetch('fetch_getimagesrc.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(obj)
+      })
+      .then(response => response.json());
+      // .then(data =>  console.log(data));
+    }
+
+    // （Fetch）imagesの画像ファイルを削除
+    const postFetch_deleteimage = (text) => {
+      fetch('fetch_deleteimage.php', {
+        method: 'POST',
+        body: text
+      });
+      // .then(response => response.text())
+      // .then(data => console.log(data));
+    }
+
     // desk追加
     function addDesk(e){
       if(arr_desk.length < 10){// desk上限10件まで
@@ -387,8 +410,14 @@
       })));
       obj.userid = obj_opendesk['userid'];
       obj.deskid = obj_opendesk['deskid'];
-      postFetch_deletedesk(obj);// desk_table、userdata_tableからdesk削除
-      arr_desk.pop();// nullを削除
+      let promise = postFetch_getimagesrc(obj);
+      promise.then(result => {
+        for (const [key, value] of Object.entries(result)) {
+          postFetch_deleteimage(value['image']);// 添付画像ファイル削除
+        }
+        postFetch_deletedesk(obj);// desk_table、userdata_tableからdesk削除
+        arr_desk.pop();// nullを削除
+      });
       closeDesk();//編集画面を閉じる
       elm.remove();//desk要素削除
     }
